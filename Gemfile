@@ -29,6 +29,8 @@ gem "jbuilder"
 
 # Use Redis adapter to run Action Cable in production
 gem "redis", "~> 4.0"
+gem 'connection_pool', '~> 2.3'
+gem 'msgpack', '~> 1.6'
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
@@ -53,6 +55,8 @@ rswag_version = '~> 2.8'
 gem 'rswag-api', rswag_version
 gem 'rswag-ui', rswag_version
 
+gem 'dry-struct', '~> 1.6'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
@@ -76,4 +80,5 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "webdrivers"
+  gem 'mock_redis', '~> 0.36.0'
 end

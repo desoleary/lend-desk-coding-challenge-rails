@@ -17,6 +17,10 @@ module LendDeskCodingChallengeRails
     # in config/environments, which are processed later.
     #
     # config.time_zone = "Central Time (US & Canada)"
-    # config.eager_load_paths << Rails.root.join("extras")
+
+    config.after_initialize do
+      redis_connection = Rails.env.test? ? MockRedis.new : Redis.new(host: 'localhost', port: 6379)
+      User.redis = ConnectionPool::Wrapper.new(size: 5, timeout: 5) { redis_connection }
+    end
   end
 end
