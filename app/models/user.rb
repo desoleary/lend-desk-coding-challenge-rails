@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-class User < RedisStore::Entry
+class User < ApplicationEntry
   attribute :password, Types::String.optional
 end

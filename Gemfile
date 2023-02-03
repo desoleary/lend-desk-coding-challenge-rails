@@ -81,4 +81,5 @@ group :test do
   gem "selenium-webdriver"
   gem "webdrivers"
   gem 'mock_redis', '~> 0.36.0'
+  gem 'simplecov', require: false
 end
