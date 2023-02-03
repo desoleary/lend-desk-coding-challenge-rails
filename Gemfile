@@ -56,6 +56,7 @@ gem 'rswag-api', rswag_version
 gem 'rswag-ui', rswag_version
 
 gem 'dry-struct', '~> 1.6'
+gem 'dry-validation', '~> 1.10'
 
 # Password Security
 gem 'bcrypt', '~> 3.1', '>= 3.1.18'
@@ -85,4 +86,5 @@ group :test do
   gem "webdrivers"
   gem 'mock_redis', '~> 0.36.0'
   gem 'simplecov', require: false
+  gem 'dry-validation-matchers', '~> 1.2', '>= 1.2.2'
 end

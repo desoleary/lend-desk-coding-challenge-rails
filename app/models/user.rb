@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
 class User < ApplicationEntry
-  attribute :password, Types::String.optional
+  # authenticatable
+  attribute :encrypted_password, Types::String.optional
+
+  alias email key
 end

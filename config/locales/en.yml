@@ -30,4 +30,10 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  errors:
+    password_min_length: 'must be at least %{min} characters long'
+    password_min_numerics: 'must contain at least %{min} number'
+    password_min_uppercase: 'must contain at least %{min} uppercase letter'
+    password_min_lowercase: 'must contain at least %{min} lowercase letter'
+    password_min_symbols: 'must contain at least %{min} symbols'
+    password_confirmation_unmatched: 'password must match password confirmation'
