@@ -17,6 +17,7 @@ module Regex
     password_min_uppercase: PASSWORD_MIN_UPPERCASE_MATCH,
     password_min_lowercase: PASSWORD_MIN_LOWERCASE_MATCH,
     password_min_symbols: PASSWORD_MIN_SYMBOLS_MATCH,
+    email: URI::MailTo::EMAIL_REGEXP
   }.freeze
 
   class << self

@@ -2,7 +2,11 @@
 
 class User < ApplicationEntry
   # authenticatable
-  attribute :encrypted_password, Types::String.optional
+  attribute :password, Types::String.optional
 
   alias email key
+
+  class << self
+    def create(email:, password:, password_confirmation:) end
+  end
 end

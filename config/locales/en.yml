@@ -37,3 +37,4 @@ en:
     password_min_lowercase: 'must contain at least %{min} lowercase letter'
     password_min_symbols: 'must contain at least %{min} symbols'
     password_confirmation_unmatched: 'password must match password confirmation'
+    email: 'must be a valid email'

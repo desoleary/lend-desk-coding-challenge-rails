@@ -7,6 +7,26 @@ describe Regex do
 
     subject { described_class.match?(type, value) }
 
+    describe ':email' do
+      let(:type) { :email }
+
+      context 'with valid email' do
+        let(:value) { 'email@domain.com' }
+
+        it 'returns true' do
+          expect(subject).to be_truthy
+        end
+      end
+
+      context 'with invalid email' do
+        let(:value) { 'emaild.g' }
+
+        it 'returns false' do
+          expect(subject).to be_falsey
+        end
+      end
+     end
+
     describe ':password_min_length' do
       let(:password_length) { described_class::PASSWORD_MIN_LENGTH }
       let(:type) { :password_min_length }

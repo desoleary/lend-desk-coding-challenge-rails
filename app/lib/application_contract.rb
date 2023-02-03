@@ -14,4 +14,8 @@ class ApplicationContract < Dry::Validation::Contract
       key.failure(I18n.t("errors.#{type}", min: min_length)) unless Regex.match?(type, value)
     end
   end
+
+  register_macro(:email) do
+    key.failure(I18n.t('errors.email')) unless Regex.match?(:email, value)
+  end
 end

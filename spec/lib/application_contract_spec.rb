@@ -4,7 +4,46 @@ require 'rails_helper'
 
 describe ApplicationContract do
   describe 'Registered Macros' do
-    describe 'password' do
+    describe ':email' do
+      let(:contract_class) do
+        Class.new(ApplicationContract) do
+          params do
+            required(:email).maybe(:string)
+          end
+
+          rule(:email).validate(:email)
+        end
+      end
+
+      let(:email) { nil }
+      let(:params) { { email: email } }
+
+      subject { contract_class.new.call(params) }
+
+      context 'with valid email' do
+        let(:email) { 'email@domain.com' }
+
+        it 'returns success' do
+          expect(subject.success?).to be_truthy
+        end
+      end
+
+      context 'with invalid email' do
+        let(:email) { 'emaildomain.com' }
+
+        it 'returns failure' do
+          expect(subject.failure?).to be_truthy
+
+          errors = subject.errors.to_h
+          expect(errors.keys).to match_array([:email])
+
+          error_messages = errors[:email]
+          expect(error_messages).to match_array( ["must be a valid email"])
+        end
+      end
+    end
+
+    describe ':password' do
       let(:contract_class) do
         Class.new(ApplicationContract) do
           params do
