@@ -6,8 +6,6 @@ class ApplicationValidatorAction < ApplicationAction
     validator = map_and_validate_inputs(context)
     add_params(context, **validator.to_h)
     add_errors(context, **validator.errors.to_h.transform_values(&:first))
-
-    context.fail_and_return! if context[:errors].present?
   end
 
   class << self

@@ -40,3 +40,4 @@ en:
     email: 'must be a valid email'
     not_found: 'not found'
     invalid_credentials: 'invalid credentials'
+    already_exists: 'already exists'

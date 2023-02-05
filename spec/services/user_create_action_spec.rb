@@ -43,11 +43,23 @@ describe UserCreateAction do
       subject
 
       expect(subject.keys).to include(:input, :errors, :params)
-      expect(subject.errors).to eql(password: "password must match password confirmation")
+      expect(subject.errors).to eql(password: 'password must match password confirmation')
       expect(subject.params).to_not include(user_id: 'email@domain.com')
 
       user = User.find(subject.params[:user_id])
       expect(user).to be_nil
+    end
+  end
+
+  context 'with pre-existing user with email' do
+    before(:each) do
+      described_class.execute(ctx) # creates user with same email
+    end
+
+    it 'returns already exists error' do
+      subject
+
+      expect(subject.errors).to eql(email: 'already exists')
     end
   end
 end

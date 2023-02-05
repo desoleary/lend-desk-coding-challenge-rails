@@ -7,14 +7,12 @@ class UserAuthAction < ApplicationAction
 
     if user.nil?
       add_errors(ctx, email: I18n.t('errors.not_found'))
-      ctx.fail_and_return!
     end
 
     password = ctx.dig(:params, :password)
     encrypted_password = user&.password
     unless PasswordEncryptor.secure_compare?(password, encrypted_password)
       add_errors(ctx, email: I18n.t('errors.invalid_credentials'))
-      ctx.fail_and_return!
     end
   end
 end

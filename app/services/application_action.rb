@@ -8,6 +8,8 @@ class ApplicationAction
 
     def add_errors(ctx, **errors)
       add_to_context(ctx, :errors, **errors)
+
+      ctx.fail_and_return! if ctx[:errors].present?
     end
 
     private
