@@ -1,14 +1,16 @@
 class UserCreateContract < ApplicationContract
   params do
-    required(:email).maybe(:string)
+    required(:email).filled(:string)
+    required(:password).filled(:string)
+    required(:password_confirmation).filled(:string)
   end
 
   rule(:email).validate(:email)
+  rule(:password).validate(:password)
 
-  def call(input, context = {}.freeze)
-    inner_contract = PasswordsContract.new.call(input)
-    return inner_contract if inner_contract.failure?
-
-    super
+  rule(:password, :password_confirmation) do
+    unless values[:password] == values[:password_confirmation]
+      key.failure(I18n.t('errors.password_confirmation_unmatched'))
+    end
   end
 end
