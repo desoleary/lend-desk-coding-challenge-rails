@@ -2,11 +2,11 @@ class ApplicationAction
   extend LightService::Action
 
   class << self
-    def add_params(ctx:, **params)
+    def add_params(ctx, **params)
       add_to_context(ctx, :params, **params)
     end
 
-    def add_errors(ctx:, **errors)
+    def add_errors(ctx, **errors)
       add_to_context(ctx, :errors, **errors)
     end
 
