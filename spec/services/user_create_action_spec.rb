@@ -26,7 +26,14 @@ describe UserCreateAction do
     user = User.find(subject.params[:user_id])
     expect(user).to be_present
 
-    expect(user.to_h).to eql(input)
+    expect(user.key).to eql(email)
+    expect(user.email).to eql(email)
+
+    encrypted_password = user.password
+    expect(encrypted_password.length).to eql(60)
+
+    encrypted_password_confirmation = user.password_confirmation
+    expect(encrypted_password_confirmation.length).to eql(60)
   end
 
   context 'with invalid data' do

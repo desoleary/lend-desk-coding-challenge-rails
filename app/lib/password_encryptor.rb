@@ -1,4 +1,7 @@
 module PasswordEncryptor
+  DEVELOPMENT_COST = 10
+  TEST_COST = 6
+
   class << self
     attr_writer :cost
 
@@ -11,7 +14,12 @@ module PasswordEncryptor
     end
 
     def cost
-      @cost ||= BCrypt::Engine.cost
+      @cost ||= begin
+                  return DEVELOPMENT_COST if Rails.env.development?
+                  return TEST_COST if Rails.env.test?
+
+                  Crypt::Engine.cost
+                end
     end
   end
 end

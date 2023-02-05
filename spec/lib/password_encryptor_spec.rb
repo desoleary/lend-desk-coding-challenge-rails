@@ -34,22 +34,7 @@ describe PasswordEncryptor do
 
     describe '.cost' do
       it 'sets cost to test cost' do
-        expect(described_class.cost).to eql(TEST_ENCRYPTOR_COST)
-      end
-
-      context 'with cost unset' do
-        around(:each) do |example|
-          original_cost = described_class.cost
-          described_class.cost = nil
-
-          example.run
-
-          described_class.cost = original_cost
-        end
-
-        it 'sets cost to BCrypt default' do
-          expect(described_class.cost).to eql(12)
-        end
+        expect(described_class.cost).to eql(described_class::TEST_COST)
       end
     end
   end

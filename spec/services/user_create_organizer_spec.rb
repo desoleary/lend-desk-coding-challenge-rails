@@ -18,7 +18,9 @@ describe UserCreateOrganizer do
     user = User.find(subject.params[:user_id])
     expect(user).to be_present
 
-    expect(user.to_h).to eql(input)
+    expect(user.email).to eql(email)
+    expect(user.password.length).to eql(60)
+    expect(user.password_confirmation.length).to eql(60)
   end
 
   context 'with invalid data' do

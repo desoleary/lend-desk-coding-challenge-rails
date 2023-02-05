@@ -9,7 +9,7 @@ describe User do
       user.save
 
       actual = User.find('desoleary@gmail.com')
-      expect(actual.attributes).to eql({ password: '' })
+      expect(actual.attributes).to eql({ email: '', password: '', password_confirmation: '' })
     end
   end
 end

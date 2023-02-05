@@ -8,7 +8,11 @@ class User < ApplicationEntry
 
   class << self
     def create(email:, password:, password_confirmation:)
-      new(key: email, email: email, password: password, password_confirmation: password_confirmation).save
+      attrs = { email: email,
+                password: PasswordEncryptor.encrypt(password),
+                password_confirmation: PasswordEncryptor.encrypt(password_confirmation) }
+
+      new(key: email, **attrs).save
     end
   end
 end

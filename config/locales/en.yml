@@ -38,3 +38,5 @@ en:
     password_min_symbols: 'must contain at least %{min} symbols'
     password_confirmation_unmatched: 'password must match password confirmation'
     email: 'must be a valid email'
+    not_found: 'not found'
+    invalid_credentials: 'invalid credentials'

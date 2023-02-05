@@ -1,5 +1,11 @@
 # README
 
+### TODO:
+
+- Hide the likes of below from organizer params/input
+  - **password**
+  - **password_confirmation**
+
 This README would normally document whatever steps are necessary to get the
 application up and running.
 
