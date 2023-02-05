@@ -147,6 +147,8 @@ GEM
       activesupport (>= 5.0.0)
     json-schema (3.0.0)
       addressable (>= 2.8)
+    light-service (0.18.0)
+      activesupport (>= 4.0.0)
     loofah (2.19.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -302,6 +304,7 @@ DEPENDENCIES
   dry-validation-matchers (~> 1.2, >= 1.2.2)
   importmap-rails
   jbuilder
+  light-service (~> 0.18.0)
   mock_redis (~> 0.36.0)
   msgpack (~> 1.6)
   puma (~> 5.0)

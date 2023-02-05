@@ -55,8 +55,10 @@ rswag_version = '~> 2.8'
 gem 'rswag-api', rswag_version
 gem 'rswag-ui', rswag_version
 
+# service layer
 gem 'dry-struct', '~> 1.6'
 gem 'dry-validation', '~> 1.10'
+gem 'light-service', '~> 0.18.0'
 
 # Password Security
 gem 'bcrypt', '~> 3.1', '>= 3.1.18'
