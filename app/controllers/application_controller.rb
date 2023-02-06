@@ -1,11 +1,11 @@
 class ApplicationController < ActionController::Base
+  include Authorizable
+
   protect_from_forgery with: :exception # helps protects against CSRF
 
-  protected
+  before_action :require_login
 
-  def render_unauthorized_error(error_messages)
-    render json: { errors: error_messages }, status: 401
-  end
+  protected
 
   def render_success(params = {})
     render json: params, status: 200
@@ -13,5 +13,34 @@ class ApplicationController < ActionController::Base
 
   def render_created(params = {})
     render json: params, status: 201
+  end
+
+  def render_bad_request(error_messages)
+    render_error(error_messages, 400)
+
+  end
+
+  def render_unauthorized_error(error_messages)
+    render_error(error_messages, 401)
+  end
+
+  private
+
+  def render_error(error_messages, http_status_code)
+    render json: { errors: error_messages }, status: http_status_code
+  end
+
+  def require_login
+    session_state = cookies[SESSION_STATE_KEY]
+    return render_unauthorized if session_state.blank?
+
+    decrypted_session_state = Encryptor.decrypt(session_state)
+    login_session = LoginSession.find(decrypted_session_state[:session_id])
+
+    render_unauthorized if login_session.nil?
+  end
+
+  def render_unauthorized
+    render_unauthorized_error({ email: I18n.t('errors.unauthorized') })
   end
 end

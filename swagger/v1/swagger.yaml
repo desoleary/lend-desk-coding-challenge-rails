@@ -28,6 +28,33 @@ paths:
               required:
               - email
               - password
+  "/users/sign_up":
+    post:
+      summary: Creates a user
+      tags:
+      - User Sign Up
+      parameters: []
+      responses:
+        '201':
+          description: user created
+        '400':
+          description: unmatched password confirmation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                password_confirmation:
+                  type: string
+              required:
+              - email
+              - password
+              - password_confirmation
 servers:
 - url: https://{defaultHost}
   variables:

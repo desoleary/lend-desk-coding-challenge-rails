@@ -1,12 +1,13 @@
 require 'swagger_helper'
 
-describe 'Sessions API' do
+describe 'Session API' do
   let(:user_email) { 'email@domain.com' }
   let(:user_password) { 'aA9^efgh' }
   let(:email) { 'email@domain.com' }
   let(:password) { 'aA9^efgh' }
 
   path '/users/sign_in' do
+    let(:user_sign_in) { { email: email, password: password } }
     let!(:user) { UserCreateOrganizer.call({ email: user_email, password: user_password, password_confirmation: user_password }) }
 
     post 'Creates a user session' do
@@ -22,7 +23,6 @@ describe 'Sessions API' do
       }
 
       response '201', 'user session created' do
-        let(:user_sign_in) { { email: email, password: password } }
         run_test! do
           response_body = JSON.parse(response.body, symbolize_names: true)
           expect(response_body).to eql(user_id: email)
@@ -46,7 +46,7 @@ describe 'Sessions API' do
 
       response '401', 'unknown user email' do
         let(:email) { 'unknown@user.com' }
-        let(:user_sign_in) { { email: email, password: password } }
+
         run_test! do
           response_body = JSON.parse(response.body, symbolize_names: true)
           expect(response_body).to eql(errors: { email: 'not found' })
@@ -58,7 +58,7 @@ describe 'Sessions API' do
 
       response '401', 'unexpected password' do
         let(:password) { 'wrong-password' }
-        let(:user_sign_in) { { email: email, password: password } }
+
         run_test! do
           response_body = JSON.parse(response.body, symbolize_names: true)
           expect(response_body).to eql(errors: { email: 'invalid credentials' })

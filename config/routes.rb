@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   # Auth Routes
   match '/users/sign_in' => 'sessions#create', as: :user_sign_in, via: :post
+  match '/users/sign_up' => 'users#create', as: :user_sign_up, via: :post
 
   # Defines the root path route ("/")
   # root "articles#index"

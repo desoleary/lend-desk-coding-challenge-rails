@@ -41,3 +41,4 @@ en:
     not_found: 'not found'
     invalid_credentials: 'invalid credentials'
     already_exists: 'already exists'
+    unauthorized: 'unauthorized'
