@@ -3,7 +3,7 @@ class UserAuthAction < ApplicationAction
 
   executed do |ctx|
     user = User.find(ctx.dig(:params, :email))
-    add_params(ctx, user_id: user&.key)
+    add_params(ctx, user_id: user&.id)
 
     if user.nil?
       add_errors(ctx, email: I18n.t('errors.not_found'))

@@ -11,9 +11,9 @@ describe RedisStore::Entry do
     end
   end
 
-  let(:key) { 'some-key' }
+  let(:id) { 'some-key' }
   let(:attributes) { { password: 'some-password' }}
-  let(:instance) { subject_class.new(key: 'desoleary@gmail.com', **attributes) }
+  let(:instance) { subject_class.new(id: 'desoleary@gmail.com', **attributes) }
 
   let(:subject) do
     instance.save
@@ -21,9 +21,9 @@ describe RedisStore::Entry do
 
   describe '.new' do
     it 'initializes instance' do
-      instance = subject_class.new(key: key, **attributes)
+      instance = subject_class.new(id: id, **attributes)
 
-      expect(instance.key).to eql(key)
+      expect(instance.id).to eql(id)
       expect(instance.read).to be_nil
     end
   end
@@ -38,11 +38,11 @@ describe RedisStore::Entry do
 
   describe '.create' do
     it 'stores record' do
-      actual = subject_class.create(key: key, **attributes)
+      actual = subject_class.create(id: id, **attributes)
 
-      expect(actual.key).to eql(key)
+      expect(actual.id).to eql(id)
 
-      entry = subject_class.find(key)
+      entry = subject_class.find(id)
       expect(entry.attributes).to eql(attributes)
     end
   end

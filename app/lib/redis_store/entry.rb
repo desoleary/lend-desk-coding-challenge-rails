@@ -9,21 +9,25 @@ module RedisStore
 
     attribute :key, Types::String
 
+    def id
+      self.class.without_redis_key_prefix(key)
+    end
+
     class << self
-      def new(key:, **attributes)
+      def new(id:, **attributes)
         attrs_with_defaults = fill_in_missing_keys(**attributes)
-        super(key: key, **attrs_with_defaults)
+        super(key: id, **attrs_with_defaults)
       end
 
-      def create(key:, **attributes)
-        new(key: key, **attributes).save
+      def create(id:, **attributes)
+        new(id: id, **attributes).save
       end
 
-      def find(key)
-        value = read_by(key)
+      def find(id)
+        value = read_by(id)
         return if value.nil?
 
-        new(key: key, **value)
+        new(id: id, **value)
       end
 
       def redis=(conn)
@@ -32,6 +36,12 @@ module RedisStore
 
       def redis
         @redis || raise(NotConnected, 'User.redis not set to a Redis.new connection pool')
+      end
+
+      def without_redis_key_prefix(id)
+        return if id.nil?
+
+        id.gsub(/^(.*):/, '')
       end
 
       private

@@ -26,7 +26,8 @@ describe UserCreateAction do
     user = User.find(subject.params[:user_id])
     expect(user).to be_present
 
-    expect(user.key).to eql(email)
+    expect(user.key).to eql("user:#{email}")
+    expect(user.id).to eql(email)
     expect(user.email).to eql(email)
 
     encrypted_password = user.password

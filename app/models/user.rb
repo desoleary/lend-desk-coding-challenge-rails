@@ -7,12 +7,16 @@ class User < ApplicationEntry
   attribute :password_confirmation, Types::String.optional
 
   class << self
+    def new(id:, **attributes)
+      super(id: id, **attributes.merge(email: without_redis_key_prefix(id)))
+    end
+
     def create(email:, password:, password_confirmation:)
       attrs = { email: email,
                 password: PasswordEncryptor.encrypt(password),
                 password_confirmation: PasswordEncryptor.encrypt(password_confirmation) }
 
-      new(key: email, **attrs).save
+      new(id: email, **attrs).save
     end
   end
 end
