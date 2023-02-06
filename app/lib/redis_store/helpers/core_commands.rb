@@ -21,8 +21,26 @@ module RedisStore
         return if hash.nil?
 
         hash.transform_values do |v|
-          v.blank? ? v : MessagePack.unpack(v)
+          begin
+            next v if v.blank?
+            next v unless v.is_a?(String)
+            next v unless v.encoding == Encoding::ASCII_8BIT
+
+            v.blank? ? v : MessagePack.unpack(v)
+          rescue => ex
+            next without_invalid_characters(v) if ex.class == ArgumentError
+
+            raise ex
+          end
         end.deep_symbolize_keys
+      end
+
+      private
+
+      def without_invalid_characters(text)
+        return text unless text.is_a?(String)
+
+        text.chars.select(&:valid_encoding?).join
       end
     end
 

@@ -1,9 +1,17 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::Base
   include Authorizable
 
-  protect_from_forgery with: :exception # helps protects against CSRF
+  if Rails.env.development? || Rails.env.test?
+    protect_from_forgery with: :null_session
+  else
+    protect_from_forgery with: :exception # helps protects against CSRF
+  end
 
   before_action :require_login
+
+  rescue_from Exception, with: :render_server_error
 
   protected
 
@@ -17,7 +25,6 @@ class ApplicationController < ActionController::Base
 
   def render_bad_request(error_messages)
     render_error(error_messages, 400)
-
   end
 
   def render_unauthorized_error(error_messages)
@@ -25,6 +32,18 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def render_server_error(exception)
+    error_with_filtered_backtrace = <<-ERROR
+    \n\n =========== SERVER ERROR FOUND: #{exception.class.name }:#{exception.message} ===========\n\n
+    #{Rails.backtrace_cleaner.clean(exception.backtrace).join("\n")}
+    \n\n #{'=' * 100} \n\n
+    ERROR
+
+    Rails.logger.error(error_with_filtered_backtrace)
+
+    render_error({ error: I18n.t('errors.internal_server_error') }, 500)
+  end
 
   def render_error(error_messages, http_status_code)
     render json: { errors: error_messages }, status: http_status_code

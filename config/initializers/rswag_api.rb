@@ -11,4 +11,6 @@ Rswag::Api.configure do |c|
   # For example, you could leverage this to dynamically assign the "host" property
   #
   #c.swagger_filter = lambda { |swagger, env| swagger['host'] = env['HTTP_HOST'] }
+
+  c.swagger_headers = { 'Content-Type' => 'application/json; charset=UTF-8; charset=UTF-8' }
 end

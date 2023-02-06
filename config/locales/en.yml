@@ -42,3 +42,4 @@ en:
     invalid_credentials: 'invalid credentials'
     already_exists: 'already exists'
     unauthorized: 'unauthorized'
+    internal_server_error: 'internal server error'

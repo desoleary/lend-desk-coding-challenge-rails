@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UsersController < ApplicationController
   skip_before_action :require_login, only: [:create]
 
@@ -12,6 +14,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.permit(:email, :password, :password_confirmation).to_h
+    params.require(:user).permit(:email, :password, :password_confirmation).to_h
   end
 end

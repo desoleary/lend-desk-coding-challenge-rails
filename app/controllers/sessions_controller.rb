@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
   private
 
   def user_params
-    params.permit(:email, :password).to_h
+    params.require(:session).permit(:email, :password).to_h
   end
 
   def session_cookie

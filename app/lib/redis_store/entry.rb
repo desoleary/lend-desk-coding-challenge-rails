@@ -35,7 +35,13 @@ module RedisStore
       end
 
       def redis
-        @redis || raise(NotConnected, "#{name}.redis not set to a Redis.new connection pool")
+        @redis ||= begin
+                     non_prod_like = Rails.env.test? || Rails.env.development?
+                     raise(NotConnected, "#{name}.redis not set to a Redis.new connection pool") unless non_prod_like
+
+                     redis_connection = Rails.env.test? ? MockRedis.new : Redis.new(host: 'localhost', port: 6379)
+                     ConnectionPoolProxy.proxy_if_needed(ConnectionPool::Wrapper.new(size: 5, timeout: 5) { redis_connection })
+                   end
       end
 
       def without_redis_key_prefix(id)

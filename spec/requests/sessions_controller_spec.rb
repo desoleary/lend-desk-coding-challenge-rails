@@ -12,7 +12,7 @@ describe 'Session API' do
 
     post 'Creates a user session' do
       tags 'User Sign In'
-      consumes 'application/json'
+      consumes 'application/json; charset=UTF-8'
       parameter name: :user_sign_in, in: :body, schema: {
         type: :object,
         properties: {
