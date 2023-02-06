@@ -35,7 +35,7 @@ module RedisStore
       end
 
       def redis
-        @redis || raise(NotConnected, 'User.redis not set to a Redis.new connection pool')
+        @redis || raise(NotConnected, "#{name}.redis not set to a Redis.new connection pool")
       end
 
       def without_redis_key_prefix(id)
