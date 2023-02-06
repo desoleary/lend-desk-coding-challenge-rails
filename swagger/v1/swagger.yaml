@@ -1,0 +1,35 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/users/sign_in":
+    post:
+      summary: Creates a user session
+      tags:
+      - User Sign In
+      parameters: []
+      responses:
+        '201':
+          description: user session created
+        '401':
+          description: unexpected password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+              - email
+              - password
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: www.example.com

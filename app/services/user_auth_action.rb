@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UserAuthAction < ApplicationAction
   expects :params
 
@@ -5,9 +7,7 @@ class UserAuthAction < ApplicationAction
     user = User.find(ctx.dig(:params, :email))
     add_params(ctx, user_id: user&.id)
 
-    if user.nil?
-      add_errors(ctx, email: I18n.t('errors.not_found'))
-    end
+    add_errors(ctx, email: I18n.t('errors.not_found')) if user.nil?
 
     password = ctx.dig(:params, :password)
     encrypted_password = user&.password

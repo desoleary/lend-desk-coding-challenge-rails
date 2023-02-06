@@ -24,14 +24,14 @@ describe LoginSessionCreateAction do
     expect(subject.params.keys).to match_array(%i[login_state user_id])
     expect(subject.params[:user_id]).to eql(email)
 
-    decrypted_state = Encryptor.decrypt(subject.params[:login_state])
-    expect(decrypted_state.keys).to match_array([:user_id, :session_id, :initiated_at, :expires_at])
-    expect(decrypted_state[:user_id]).to eql(email)
+    login_state = subject.params[:login_state]
+    expect(login_state.keys).to match_array([:user_id, :session_id, :initiated_at, :expires_at])
+    expect(login_state[:user_id]).to eql(email)
 
-    expiration_delta = decrypted_state[:expires_at] - decrypted_state[:initiated_at]
+    expiration_delta = login_state[:expires_at] - login_state[:initiated_at]
     expect(expiration_delta).to eql(2.hours.to_i)
 
-    session = LoginSession.find(decrypted_state[:session_id])
+    session = LoginSession.find(login_state[:session_id])
     expect(session).to be_present
   end
 
