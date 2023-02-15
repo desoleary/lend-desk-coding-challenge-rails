@@ -67,6 +67,18 @@ describe 'Session API' do
           expect(secure_session).to be_nil
         end
       end
+
+      response '500', 'handles unexpected error' do
+        before(:each) { allow(UserAuthOrganizer).to receive(:call).and_raise(StandardError) }
+
+        run_test! do
+          response_body = JSON.parse(response.body, symbolize_names: true)
+          expect(response_body).to eql({ errors: { error: 'internal server error' } })
+
+          secure_session = cookies[:secure_session]
+          expect(secure_session).to be_nil
+        end
+      end
     end
   end
 end

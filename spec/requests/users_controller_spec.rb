@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'swagger_helper'
 
 describe 'User API' do
@@ -65,6 +67,18 @@ describe 'User API' do
         run_test! do
           response_body = JSON.parse(response.body, symbolize_names: true)
           expect(response_body).to eql({ errors: { password: 'password must match password confirmation' } })
+
+          secure_session = cookies[:secure_session]
+          expect(secure_session).to be_nil
+        end
+      end
+
+      response '500', 'handles unexpected error' do
+        before(:each) { allow(UserCreateOrganizer).to receive(:call).and_raise(StandardError) }
+
+        run_test! do
+          response_body = JSON.parse(response.body, symbolize_names: true)
+          expect(response_body).to eql({ errors: { error: 'internal server error' } })
 
           secure_session = cookies[:secure_session]
           expect(secure_session).to be_nil
