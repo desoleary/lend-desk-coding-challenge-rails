@@ -1,4 +1,4 @@
-class LoginSessionCreateAction < ApplicationAction
+class LoginSessionCreateAction < LightServiceExt::ApplicationAction
   expects :params
 
   executed do |ctx|

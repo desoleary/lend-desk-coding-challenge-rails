@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class UserAuthAction < ApplicationAction
+class UserAuthAction < LightServiceExt::ApplicationAction
   expects :params
 
   executed do |ctx|

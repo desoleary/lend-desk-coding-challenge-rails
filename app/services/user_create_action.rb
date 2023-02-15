@@ -1,4 +1,4 @@
-class UserCreateAction < ApplicationAction
+class UserCreateAction < LightServiceExt::ApplicationAction
   expects :params
 
   executed do |ctx|
