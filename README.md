@@ -9,7 +9,7 @@ $ bin/rspec
 $ bin/rake rswag:specs:swaggerize # Optionally re-generates API Docs
 $ brew install redis # Optional
 $ redis-server # runs redis server on port 6379
-$ bin/rails c # Ensure you have OS redis installed and running under port 6379
+$ bin/rails s # Ensure you have OS redis installed and running under port 6379
 $ open http://0.0.0.0:3000/api-docs # opens Swagger API Docs
 ```
 
@@ -17,18 +17,45 @@ $ open http://0.0.0.0:3000/api-docs # opens Swagger API Docs
 - URL: http://0.0.0.0:3000/api-docs
 - Regenerate API: `bin/rake rswag:specs:swaggerize`
 
+### Cookie Storage
+- JWT encode/decode is not involved
+- Uses `JWT naming conventions` to demonstrate an approach for recording data related to calculating inactivity via `initiated_at` and `expires_at`
+- `Encryption` used was to make use of `MessageEncryptor` which can be helpful in storing cookies that might span more than one or more services
+
+
 ### Contracts
 Introduced validation contracts via `dry-validation` library
 
-### Models (Redis)
-Introduced `ApplicationEntry` in order to simplify redis model storage interactions
+### Model Layer (Redis backend)
+- Uses `SimpleRedisOrm::ApplicationEntry` in order to simplify redis model storage interactions
+- Attributes declared making use of dry-struct
+- redis interactions encapsulated inside of RedisStore::Entry
 
 ### Services (Light Services)
 Service layer introduced to promote re-use and focus on single responsibilities via action classes.
 
-- `add_errors`
-  - adds `errors to context` and returns immediately from current action
-  - `organizer fails` the context to ensure all subsequent actions do not get called when `ctx[:errors]` is filled
+- Context obj returned from `Organizers` exposes the likes of `.success?` `.errors` `.params`
+- `add_params` ~ adds key value pairs to context `params`
+- `add_errors` ~ adds key value pairs to context `errors`
+  - fails the context ensuring that subsequent actions do not get called
+
+### Technicals
+
+#### [LoginSessionCreateAction](app/services/login_session_create_action.rb)
+- Adds `login_state` based on session entry added via Redis
+- Caller adds value of `login_state` to `secure_session` cookie
+
+#### [UserAuthAction](app/services/user_auth_action.rb)
+- Checks username and password
+- Error handling
+
+#### [User](app/models/user.rb)
+- Creates entry with encrypted password via `BCrypt::Password`
+- redis key `user-<email>`
+
+#### [LoginSession](app/models/login_session.rb)
+- Stores `session token` as a simple SecureRandom.hex
+- redis key `session-<random-hex>`
 
 ### TODO:
 - Investigate why the need for `without_invalid_characters` via Swagger API calls

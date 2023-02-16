@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class User < ApplicationEntry
+class User < SimpleRedisOrm::ApplicationEntry
   # authenticatable
   attribute :email, Types::String.optional
   attribute :password, Types::String.optional

@@ -1,4 +1,4 @@
-class ApplicationEntry < RedisStore::Entry
+class ApplicationEntry < SimpleRedisOrm::Entry
 
   class << self
     attr_writer :model_name

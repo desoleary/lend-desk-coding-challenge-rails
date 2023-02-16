@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class LoginSession < ApplicationEntry
+class LoginSession < SimpleRedisOrm::ApplicationEntry
   EXPIRES_IN_SECONDS = 2.hours.to_i
 
   # authenticatable
